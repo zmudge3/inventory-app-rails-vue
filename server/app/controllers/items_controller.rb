@@ -2,16 +2,12 @@ class ItemsController < ApplicationController
     before_action :set_container
     before_action :set_container_item, only: [:show, :update, :destroy]
 
-    api :GET, "/containers/:container_id/items", "List all items in a container"
-    param :container_id, Integer, desc: "id of the container", required: true
+    # GET /containers/:container_id/items
     def index
        render json: @container.items 
     end
 
-    api :POST, "/containers/:container_id/items", "Create new item"
-    param :container_id, Integer, desc: "id of the container", required: true
-    param :name, String, desc: "Name of the new item", required: true
-    param :quantity, Integer, desc: "Quantity of the new item", required: true
+    # POST /containers/:container_id/items
     def create
         item = @container.items.new(item_params)
         if item.save
@@ -21,9 +17,7 @@ class ItemsController < ApplicationController
         end
     end
 
-    api :GET, "/containers/:container_id/items/:id", "Show one of the items in a container"
-    param :container_id, Integer, desc: "id of the container", required: true
-    param :id, Integer, desc: "id of the item", required: true
+    # GET /containers/:container_id/items/:id
     def show
         if @item
             render json: @item
@@ -32,11 +26,7 @@ class ItemsController < ApplicationController
         end
     end
 
-    api :PATCH, "/containers/:container_id/items/:id", "Modify an item"
-    param :container_id, Integer, desc: "id of the container", required: true
-    param :id, Integer, desc: "id of the item", required: true
-    param :name, String, desc: "New name of the item", required: false
-    param :quantity, Integer, desc: "New quantity of the item", required: false
+    # PATCH /containers/:container_id/items/:id
     def update
         if @item.update(item_params)
             render json: @item
@@ -45,9 +35,7 @@ class ItemsController < ApplicationController
         end
     end
 
-    api :DELETE, "/containers/:container_id/items/:id", "Delete an item from a container"
-    param :container_id, Integer, desc: "id of the container", required: true
-    param :id, Integer, desc: "id of the item", required: true
+    # DELETE /containers/:container_id/items/:id
     def destroy
         @item.destroy
         head :no_content

@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  apipie
- 
   scope :api do
     scope :v1 do
       resources :containers do
