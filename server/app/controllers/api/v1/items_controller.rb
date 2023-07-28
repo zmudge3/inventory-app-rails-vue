@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Api::V1::ItemsController < ApplicationController
     before_action :set_container
     before_action :set_container_item, only: [:show, :update, :destroy]
 

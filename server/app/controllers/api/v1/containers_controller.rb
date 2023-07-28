@@ -1,4 +1,4 @@
-class ContainersController < ApplicationController
+class Api::V1::ContainersController < ApplicationController
     before_action :set_container, only: [:show, :update, :destroy]
 
     # GET /containers
