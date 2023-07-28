@@ -11,34 +11,37 @@ class ContainersController < ApplicationController
     def create
         container = Container.new(container_params)
         if container.save
-            render json: container, status: :created
+            render json: ContainerSerializer.new(container), status: :created
         else
-            render json: container.errors, status: :unprocessable_entity
+            render json: { error: "Container creation failed" }, status: :unprocessable_entity
         end
     end
 
     # GET /containers/:id
     def show
         if @container
-            render json: ContainerSerializer.new(@container)
+            render json: ContainerSerializer.new(@container), status: :ok
         else
-            render json: {message: "Container not found"}, status: :bad_request
+            render json: { error: "Container not found" }, status: :not_found
         end
     end
 
     # PATCH /containers/:id
     def update
         if @container.update(container_params)
-            render json: @container
+            render json: ContainerSerializer.new(@container), status: :ok
         else
-            render json: {message: "Container could not be updated"}, status: :unprocessable_entity
+            render json: { error: "Container update failed" }, status: :unprocessable_entity
         end
     end
 
     # DELETE /containers/:id
     def destroy
-        @container.destroy
-        head :no_content
+        if @container.destroy
+            render json: { message: "Container successfully deleted" }, status: :ok
+        else
+            render json: { error: "Container deletion failed" }, status: :internal_server_error
+        end
     end
 
     private

@@ -39,6 +39,6 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
       delete container_item_url(@container, @item), as: :json
     end
 
-    assert_response :no_content
+    assert_response :ok
   end
 end

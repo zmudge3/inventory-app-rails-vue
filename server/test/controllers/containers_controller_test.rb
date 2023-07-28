@@ -33,7 +33,7 @@ class ContainersControllerTest < ActionDispatch::IntegrationTest
       delete container_url(@container), as: :json
     end
 
-    assert_response :no_content
+    assert_response :ok
   end
 
   test "should destroy container's items when container destroyed" do
@@ -41,6 +41,6 @@ class ContainersControllerTest < ActionDispatch::IntegrationTest
       delete container_url(@container), as: :json
     end
 
-    assert_response :no_content
+    assert_response :ok
   end
 end
