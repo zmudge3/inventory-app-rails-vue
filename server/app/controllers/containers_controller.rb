@@ -1,13 +1,14 @@
 class ContainersController < ApplicationController
     before_action :set_container, only: [:show, :update, :destroy]
 
-    # GET /containers
+    api :GET, "/containers", "List all containers"
     def index
         containers = Container.all
         render json: containers
     end
 
-    # POST /containers
+    api :POST, "/containers", "Create new container"
+    param :name, String, desc: "Name of the new container", required: true
     def create
         container = Container.new(container_params)
         if container.save
@@ -17,7 +18,8 @@ class ContainersController < ApplicationController
         end
     end
 
-    # GET /containers/:id
+    api :GET, "/containers/:id", "Show a container"
+    param :id, Integer, desc: "id of the requested container", required: true
     def show
         if @container
             render json: @container
@@ -26,7 +28,9 @@ class ContainersController < ApplicationController
         end
     end
 
-    # PATCH /containers/:id
+    api :PATCH, "/containers/:id", "Modify a container"
+    param :id, Integer, desc: "id of the container", required: true
+    param :name, String, desc: "New name of the container", required: false
     def update
         if @container.update(container_params)
             render json: @container
@@ -35,7 +39,8 @@ class ContainersController < ApplicationController
         end
     end
 
-    # DELETE /goals/:id
+    api :DELETE, "/containers/:id", "Delete a container"
+    param :id, Integer, desc: "id of the container", required: true
     def destroy
         @container.destroy
         head :no_content
