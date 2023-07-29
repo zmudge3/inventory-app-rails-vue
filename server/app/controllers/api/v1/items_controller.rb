@@ -19,42 +19,34 @@ class Api::V1::ItemsController < ApplicationController
 
     # GET /containers/:container_id/items/:id
     def show
-        if @item
-            render json: ItemSerializer.new(@item)
-        else
-            render json: { error: "Item not found" }, status: :not_found
-        end
+        render json: ItemSerializer.new(@item)
     end
 
     # PATCH /containers/:container_id/items/:id
     def update
-        if @item.update(item_params)
-            render json: ItemSerializer.new(@item), status: :ok
-        else
-            render json: { error: "Item update failed" }, status: :unprocessable_entity
-        end
+        @item.update(item_params)
+        render json: ItemSerializer.new(@item), status: :ok
     end
 
     # DELETE /containers/:container_id/items/:id
     def destroy
-        if @item.destroy
-            render json: { message: "Item successfully deleted" }, status: :ok
-        else
-            render json: { error: "Item deletion failed" }, status: :internal_server_error
-        end
+        @item.destroy
+        render json: { message: "Item successfully deleted" }, status: :ok
     end
 
     private
 
     def item_params
-        params.require(:item).permit(:name, :quantity)
+        params.permit(:name, :quantity)
     end
 
     def set_container
-        @container = Container.find(params[:container_id])
+        @container = Container.find_by_id(params[:container_id])
+        render json: { error: "Container not found" }, status: :not_found unless @container
     end
 
     def set_container_item
-        @item = @container.items.find_by(id: params[:id]) if @container
+        @item = @container.items.find_by_id(params[:id]) if @container
+        render json: { error: "Item not found" }, status: :not_found unless @item
     end
 end

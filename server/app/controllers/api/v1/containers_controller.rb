@@ -28,29 +28,32 @@ class Api::V1::ContainersController < ApplicationController
 
     # PATCH /containers/:id
     def update
-        if @container.update(container_params)
+        if @container
+            @container.update(container_params)
             render json: ContainerSerializer.new(@container), status: :ok
         else
-            render json: { error: "Container update failed" }, status: :unprocessable_entity
+            render json: { error: "Container not found" }, status: :not_found
         end
     end
 
     # DELETE /containers/:id
     def destroy
-        if @container.destroy
+        if @container
+            @container.destroy
             render json: { message: "Container successfully deleted" }, status: :ok
         else
-            render json: { error: "Container deletion failed" }, status: :internal_server_error
+            render json: { error: "Container not found" }, status: :not_found
         end
     end
 
     private
 
     def container_params
-        params.require(:container).permit(:name)
+        params.permit(:name)
     end
 
     def set_container
-        @container = Container.find(params[:id])
+        @container = Container.find_by_id(params[:id])
+        render json: { error: "Container not found" }, status: :not_found unless @container
     end
 end

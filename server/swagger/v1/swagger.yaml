@@ -1,0 +1,175 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/containers":
+    get:
+      summary: lists containers
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: containers found
+    post:
+      summary: creates container
+      tags:
+      - Containers
+      parameters: []
+      responses:
+        '201':
+          description: container created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+  "/api/v1/containers/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: container id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: retrieves a container
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: container found
+        '404':
+          description: container not found
+    patch:
+      summary: updates a container
+      tags:
+      - Containers
+      parameters: []
+      responses:
+        '200':
+          description: container updated
+        '404':
+          description: container not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+    delete:
+      summary: deletes a container
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: container deleted
+        '404':
+          description: container not found
+  "/api/v1/containers/{container_id}/items":
+    parameters:
+    - name: container_id
+      in: path
+      description: container id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: lists items for a container
+      tags:
+      - Items
+      responses:
+        '200':
+          description: items found
+    post:
+      summary: adds a new item to a container
+      tags:
+      - Items
+      parameters: []
+      responses:
+        '201':
+          description: item created
+        '422':
+          description: invalid request
+        '404':
+          description: container not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                quantity:
+                  type: number
+              required:
+              - name
+              - quantity
+  "/api/v1/containers/{container_id}/items/{id}":
+    parameters:
+    - name: container_id
+      in: path
+      description: container id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: item id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: retrieves an item
+      tags:
+      - Items
+      responses:
+        '200':
+          description: item found
+        '404':
+          description: container or item not found
+    patch:
+      summary: updates an item
+      tags:
+      - Items
+      parameters: []
+      responses:
+        '200':
+          description: item updated
+        '404':
+          description: container or item not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                quantity:
+                  type: number
+    delete:
+      summary: deletes an item from a container
+      tags:
+      - Items
+      responses:
+        '200':
+          description: item deleted
+        '404':
+          description: container or item not found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
