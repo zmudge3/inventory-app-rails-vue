@@ -2,18 +2,20 @@ version: '3'
 services:
   db:
     image: postgres:latest
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
     env_file:
-      - .env-prod-db
+      - ./server/.env-prod-db
   web:
-    build: .
+    build: ./server
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file:
-      - .env-prod-web
+      - ./server/.env-prod-web
     volumes:
-      - .:/server
+      - ./server:/server
     ports:
       - "3000:3000"
     depends_on:
       - db
+  vue:
+    build: ./client
+    ports:
+      - "8000:8000"
