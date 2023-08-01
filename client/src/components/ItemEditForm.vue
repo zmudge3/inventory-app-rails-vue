@@ -38,7 +38,7 @@ export default {
   props: ['containerID', 'itemForEdit'],
   methods: {
     editItem() {
-      const path = `http://localhost:3000/api/v1/containers/${this.containerID}/items/${this.itemForEdit.id}`;
+      const path = `https://pure-reef-34935-cb295cd6a41d.herokuapp.com/api/v1/containers/${this.containerID}/items/${this.itemForEdit.id}`;
       const payload = {
         name: this.itemForEdit.name,
         quantity: this.itemForEdit.quantity,

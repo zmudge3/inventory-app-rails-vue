@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     getContainers() {
-      const path = 'http://localhost:3000/api/v1/containers';
+      const path = 'https://pure-reef-34935-cb295cd6a41d.herokuapp.com/api/v1/containers';
       axios.get(path)
         .then((res) => {
           this.containers = res.data.data;
@@ -128,7 +128,7 @@ export default {
       this.removeContainer(containerID);
     },
     removeContainer(containerID) {
-      const path = `http://localhost:3000/api/v1/containers/${containerID}`;
+      const path = `https://pure-reef-34935-cb295cd6a41d.herokuapp.com/api/v1/containers/${containerID}`;
       axios.delete(path)
         .then(() => {
           this.getContainers();

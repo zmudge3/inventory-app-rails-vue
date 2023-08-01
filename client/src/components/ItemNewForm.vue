@@ -44,7 +44,7 @@ export default {
   props: ['containerID'],
   methods: {
     addItem() {
-      const path = `http://localhost:3000/api/v1/containers/${this.containerID}/items`;
+      const path = `https://pure-reef-34935-cb295cd6a41d.herokuapp.com/api/v1/containers/${this.containerID}/items`;
       const payload = {
         name: this.name,
         quantity: this.quantity,
